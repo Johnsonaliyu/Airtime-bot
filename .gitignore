@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# WhatsApp session — contains private credentials, never commit
+auth_info_baileys/
+
+# Winner data — persistent state, keep locally or use a volume
+data/
+
+# Environment variables
+.env
+
+# Replit-specific
+.replit
+replit.nix
+.local/
+.agents/
+.cache/
+.breakpoints
+
+# Uploaded assets not needed in repo
+attached_assets/
+zipFile.zip
+
+# Logs
+*.log
+npm-debug.log*

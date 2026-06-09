@@ -1,8 +1,11 @@
 const axios = require('axios');
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const GROQ_API_KEY   = process.env.GROQ_API_KEY;
-const NVIDIA_API_KEY = process.env.NVIDIA_API_KEY;
+const GEMINI_API_KEY  = process.env.GEMINI_API_KEY;
+const GROQ_API_KEY    = process.env.GROQ_API_KEY;
+const NVIDIA_API_KEY  = process.env.NVIDIA_API_KEY;
+const MANUS_API_KEY   = process.env.MANUS_API_KEY;
+const MANUS_BASE_URL  = process.env.MANUS_BASE_URL || 'https://api.manus.im/v1';
+const MANUS_MODEL     = process.env.MANUS_MODEL    || 'manus-default';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // AMÒFIN SYSTEM PROMPT — Full Constitutional Knowledge
@@ -688,6 +691,24 @@ async function scoreAirtimeReason(reason, name = 'Friend') {
       );
       raw = resp.data.choices[0].message.content.trim();
     } catch (err) { console.log('Nvidia scoring failed:', err.message); }
+  }
+
+  // Manus fallback
+  if (!raw && MANUS_API_KEY) {
+    try {
+      const resp = await axios.post(
+        `${MANUS_BASE_URL}/chat/completions`,
+        {
+          model: MANUS_MODEL,
+          messages: [{ role: 'system', content: SCORING_SYSTEM_PROMPT }, { role: 'user', content: prompt }],
+          max_tokens: 120,
+          temperature: 0.3
+        },
+        { headers: { 'Authorization': `Bearer ${MANUS_API_KEY}`, 'Content-Type': 'application/json' }, timeout: 20000 }
+      );
+      raw = resp.data.choices[0].message.content.trim();
+      console.log('✅ Scored via Manus');
+    } catch (err) { console.log('Manus scoring failed:', err.message); }
   }
 
   // Gemini fallback

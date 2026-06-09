@@ -19,12 +19,13 @@ if (missing.length > 0) {
 }
 
 const hasAnyAiKey =
-  process.env.GEMINI_API_KEY ||
   process.env.GROQ_API_KEY ||
-  process.env.NVIDIA_API_KEY;
+  process.env.NVIDIA_API_KEY ||
+  process.env.MANUS_API_KEY ||
+  process.env.GEMINI_API_KEY;
 
 if (!hasAnyAiKey) {
-  console.error('❌ At least one AI key is required: GROQ_API_KEY, NVIDIA_API_KEY, or GEMINI_API_KEY');
+  console.error('❌ At least one AI key is required: GROQ_API_KEY, NVIDIA_API_KEY, MANUS_API_KEY, or GEMINI_API_KEY');
   process.exit(1);
 }
 

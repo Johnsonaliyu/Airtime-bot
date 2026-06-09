@@ -1,0 +1,19 @@
+{
+  "name": "amofin-bot",
+  "version": "1.0.0",
+  "description": "Amòfin — Olaoluwa Age Group Constitutional Advisor WhatsApp Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.16",
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3",
+    "pino": "^9.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
